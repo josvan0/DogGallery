@@ -1,0 +1,26 @@
+/* load fonts */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rubik&display=swap');
+
+:root {
+  /* fonts */
+  --normal: 'Rubik', sans-serif;
+  --title: 'Bebas Neue', cursive;
+  /* palette color */
+  --primary-color: #ff9f1c;
+  --primary-light-color: #ffbf69;
+  --secondary-color: #2ec4b6;
+  --secondary-light-color: #cbf3f0;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.app {
+  display: grid;
+  grid-template-columns: 2fr 8fr;
+  height: 100vh;
+  width: 100vw;
+}
