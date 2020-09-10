@@ -56,13 +56,19 @@ class BreedList extends React.Component {
     const breedList = this.state.breeds.map(breed => {
       return (
         <li key={breed}>
-          <input
-            type="radio"
-            name="breed"
-            id={breed}
-            value={breed}
-            onClick={this.handleBreedSelect} />
-          <label htmlFor={breed}>{breed}</label>
+
+          <label
+            className="radio-btn"
+            htmlFor={breed}>
+            {breed}
+            <input
+              type="radio"
+              name="breed"
+              id={breed}
+              value={breed}
+              onClick={this.handleBreedSelect} />
+              <span className="checkmark"></span>
+          </label>
         </li>
       );
     });
@@ -77,14 +83,19 @@ class BreedList extends React.Component {
           <h2>Breeds</h2>
           <ul>
             <li key="all">
-              <input
-                defaultChecked
-                type="radio"
-                name="breed"
-                id="all"
-                value=""
-                onClick={this.handleBreedSelect} />
-              <label htmlFor="all">All</label>
+              <label
+                className="radio-btn"
+                htmlFor="all">
+                All
+                <input
+                  defaultChecked
+                  type="radio"
+                  name="breed"
+                  id="all"
+                  value=""
+                  onClick={this.handleBreedSelect} />
+                <span className="checkmark"></span>
+              </label>
             </li>
             {breedList}
           </ul>
