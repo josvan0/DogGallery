@@ -1,77 +1,9 @@
-.breeds {
-  font-family: var(--normal);
-  height: 100vh;
-}
-
-.breeds div {
-  padding: 20px;
-}
-
-.breeds h2 {
-  color: var(--secondary-color);
-  font-family: var(--title);
-  margin-bottom: 10px;
-}
-
-/* principal-breeds */
-
-#principal-breeds {
-  height: 60%;
-  overflow-y: scroll;
-}
-
-#principal-breeds ul li {
-  list-style: none;
-  margin-bottom: 10px;
-}
-
-/* radio buttons */
-
-.radio-btn {
-  cursor: pointer;
-  display: block;
-  padding-left: 35px;
-  position: relative;
-  user-select: none;
-}
-
-.radio-btn input {
-  display: none;
-}
-
-.radio-btn .checkmark {
-  background-color: var(--secondary-light-color);
+.breed-list {
   border: 1px solid var(--secondary-color);
-  border-radius: 10px;
-  height: 20px;
-  left: 0;
-  position: absolute;
-  top: 0;
-  transition: background-color .3s, width .5s;
-  width: 20px;
-  z-index: -1;
-}
-
-.radio-btn:hover input ~ .checkmark {
-  width: 100%;
-}
-
-.radio-btn input:checked ~ .checkmark {
-  background-color: var(--secondary-color);
-  width: 100%;
-}
-
-/* sub-breeds */
-
-#sub-breeds {
-  background-color: var(--secondary-light-color);
-  border-top: 1px solid var(--secondary-color);
-  height: 40%;
   overflow-y: scroll;
 }
 
-#sub-breeds ul li {
-  list-style-position: inside;
-  margin-left: 10px;
+.breed-list ul li {
+  list-style: none;
   margin-bottom: 10px;
 }

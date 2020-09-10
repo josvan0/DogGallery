@@ -1,0 +1,33 @@
+.radio-btn {
+  cursor: pointer;
+  display: block;
+  padding-left: 35px;
+  position: relative;
+  user-select: none;
+}
+
+.radio-btn input {
+  display: none;
+}
+
+.radio-btn .checkmark {
+  background-color: var(--secondary-light-color);
+  border: 1px solid var(--secondary-color);
+  border-radius: 10px;
+  height: 20px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transition: background-color .3s, width .5s;
+  width: 20px;
+  z-index: -1;
+}
+
+.radio-btn:hover input ~ .checkmark {
+  width: 100%;
+}
+
+.radio-btn input:checked ~ .checkmark {
+  background-color: var(--secondary-color);
+  width: 100%;
+}

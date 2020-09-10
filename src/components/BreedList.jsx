@@ -1,114 +1,46 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './BreedList.css';
+import RadioButton from './RadioButton';
 
-class BreedList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      breeds: [],
-      subBreeds: []
-    };
-
-    this.handleBreedSelect = this.handleBreedSelect.bind(this);
-  }
-
-  componentDidMount() {
-    fetch('https://dog.ceo/api/breeds/list/all')
-      .then(response => {
-        return response.json();
-      })
-      .then(json => {
-        if (json.status === 'success') {
-          this.setState({
-            breeds: Object.keys(json.message)
-          });
-        }
-      })
-      .catch(err => {
-        console.error(err);
-      });
-  }
-
-  handleBreedSelect(e) {
-    if (e.target.value === '') {
-      this.setState({
-        subBreeds: []
-      });
-    } else {
-      fetch(`https://dog.ceo/api/breed/${e.target.value}/list`)
-        .then(response => {
-          return response.json();
-        })
-        .then(json => {
-          if (json.status === 'success') {
-            this.setState({
-              subBreeds: json.message
-            });
-          }
-        })
-        .catch(err => {
-          console.error(err);
-        })
-    }
-  }
-
-  render() {
-    const breedList = this.state.breeds.map(breed => {
-      return (
-        <li key={breed}>
-
-          <label
-            className="radio-btn"
-            htmlFor={breed}>
-            {breed}
-            <input
-              type="radio"
-              name="breed"
-              id={breed}
-              value={breed}
-              onClick={this.handleBreedSelect} />
-              <span className="checkmark"></span>
-          </label>
-        </li>
-      );
-    });
-
-    const subBreedList = this.state.subBreeds.map(subBreed => {
-      return <li key={subBreed}>{subBreed}</li>;
-    });
-
+function BreedList(props) {
+  const breeds = props.breedList.map(breed => {
     return (
-      <div className="breeds">
-        <div id="principal-breeds">
-          <h2>Breeds</h2>
-          <ul>
-            <li key="all">
-              <label
-                className="radio-btn"
-                htmlFor="all">
-                All
-                <input
-                  defaultChecked
-                  type="radio"
-                  name="breed"
-                  id="all"
-                  value=""
-                  onClick={this.handleBreedSelect} />
-                <span className="checkmark"></span>
-              </label>
-            </li>
-            {breedList}
-          </ul>
-        </div>
-        <div id="sub-breeds">
-          <h2>Sub-breeds</h2>
-          { this.state.subBreeds.length === 0
-              ? <p>This breed hasn't sub-breeds</p>
-          : <ul>{subBreedList}</ul> }
-        </div>
-      </div>
+      <li>
+        <RadioButton
+          value={breed}
+          selectHandler={props.selectHandler} />
+      </li>
     );
-  }
+  });
+
+  return (
+    <div className="breed-list">
+      <h2>{props.listName}</h2>
+      <ul>
+        <li key="all">
+          <RadioButton
+            value="all"
+            groupName={props.listName}
+            checked={true}
+            selectHandler={props.selectHandler} />
+          {breeds}
+        </li>
+      </ul>
+    </div>
+  );
 }
+
+BreedList.propTypes = {
+  breedList: PropTypes.array,
+  listName: PropTypes.string,
+  selectHandler: PropTypes.func
+};
+
+BreedList.defaultProps = {
+  breedList: [],
+  listName: 'Breeds',
+  selectHandler: () => {}
+};
 
 export default BreedList;
