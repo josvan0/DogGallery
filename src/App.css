@@ -28,6 +28,8 @@
 /* breed list */
 
 .breeds {
+  display: grid;
+  grid-template-rows: 6fr 4fr;
   font-family: var(--normal);
   height: 100vh;
 }

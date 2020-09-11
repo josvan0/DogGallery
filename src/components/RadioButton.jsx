@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './RadioButton.css';
+import { capitalize } from '../helpers/stringUtilities';
 
 function RadioButton(props) {
   return (
     <label
       className="radio-btn"
       htmlFor={props.value}>
-      {props.value}
+      {capitalize(props.value)}
       <input
         type="radio"
         defaultChecked={props.checked}

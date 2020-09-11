@@ -4,8 +4,8 @@ import BreedList from './components/BreedList';
 import GalleryImage from './components/GalleryImage';
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
   }
 
   render() {
@@ -13,9 +13,11 @@ class App extends React.Component {
       <div className="app">
         <div className="breeds">
           <BreedList
-            listName="Principal breeds" />
+            listName="Principal breeds"
+            breedList={this.state.breeds} />
           <BreedList
-            listName="Sub-Breeds" />
+            listName="Sub-Breeds"
+            breedList={this.state.subBreeds} />
         </div>
         <GalleryImage />
       </div>

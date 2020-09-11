@@ -6,9 +6,10 @@ import RadioButton from './RadioButton';
 function BreedList(props) {
   const breeds = props.breedList.map(breed => {
     return (
-      <li>
+      <li key={breed}>
         <RadioButton
           value={breed}
+          groupName={props.listName}
           selectHandler={props.selectHandler} />
       </li>
     );
@@ -24,8 +25,8 @@ function BreedList(props) {
             groupName={props.listName}
             checked={true}
             selectHandler={props.selectHandler} />
-          {breeds}
         </li>
+        {breeds}
       </ul>
     </div>
   );
