@@ -1,10 +1,8 @@
-/* private */
+import { STR_EMPTY } from './stringUtilities';
+
 const BASE_URL = 'https://dog.ceo/api';
-const STR_EMPTY = '';
 
-/* public */
 export const LIST_ALL_BREEDS_URL = BASE_URL + '/breeds/list/all';
-
 export class ImageUrlParamsBuilder {
   constructor() {
     this.breed = STR_EMPTY;
@@ -42,9 +40,8 @@ export class ImageUrlParamsBuilder {
     };
   }
 };
-
-export const buildImageUrl = (params) => {
-  const url = [ BASE_URL ];
+export function buildImageUrl(params) {
+  const url = [BASE_URL];
   if (params.breed !== STR_EMPTY) {
     url.push(`/breed/${params.breed}`);
     if (params.subBreed !== STR_EMPTY) {
@@ -62,4 +59,4 @@ export const buildImageUrl = (params) => {
     }
   }
   return url.join('');
-};
+}
