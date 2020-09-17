@@ -1,9 +1,23 @@
 import React from 'react';
+
+/********** redux **********/
+
+import { connect, Provider } from 'react-redux';
+import {
+  ENABLE_RANDOM_MODE,
+  QUERY_IMAGE_LIST
+} from '../constants/actionTypes';
+import store from '../store';
+
+/********** components **********/
+
 import './GalleryImage.css';
 
-class GalleryImage extends React.Component {
-  constructor(props) {
-    super(props);
+/********** react **********/
+
+class Presentational extends React.Component {
+  constructor() {
+    super();
   }
 
   render() {
@@ -12,5 +26,19 @@ class GalleryImage extends React.Component {
     );
   }
 }
+
+/********** connection redux **********/
+
+const mapStateToProps = state => ({});
+
+const mapDispatchToProps = dispatch => ({});
+
+const Container = connect(mapStateToProps, mapDispatchToProps)(Presentational);
+
+const GalleryImage = () => (
+  <Provider store={store}>
+    <Container />
+  </Provider>
+);
 
 export default GalleryImage;

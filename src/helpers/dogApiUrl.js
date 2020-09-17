@@ -1,8 +1,35 @@
 import { STR_EMPTY } from './stringUtilities';
 
-const BASE_URL = 'https://dog.ceo/api';
+/********** static urls **********/
 
-export const LIST_ALL_BREEDS_URL = BASE_URL + '/breeds/list/all';
+const BASE_URL = 'https://dog.ceo/api';
+export const LIST_ALL_BREEDS_URL = `${BASE_URL}/breeds/list/all`;
+
+/********** builders **********/
+
+export function buildImageUrl(params) {
+  const url = [BASE_URL];
+  if (params.breed !== STR_EMPTY) {
+    url.push(`/breed/${params.breed}`);
+    if (params.subBreed !== STR_EMPTY) {
+      url.push(`/${params.subBreed}`);
+    }
+    url.push('/images');
+  } else {
+    url.push('/breeds/image');
+  }
+
+  if (params.random || params.breed === STR_EMPTY) {
+    url.push('/random');
+    if (params.randomImageListSize > 0) {
+      url.push(`/${params.randomImageListSize}`);
+    }
+  }
+  return url.join('');
+}
+
+export const buildSubBreedListUrl = breed => `${BASE_URL}/breed/${breed}/list`;
+
 export class ImageUrlParamsBuilder {
   constructor() {
     this.breed = STR_EMPTY;
@@ -39,24 +66,4 @@ export class ImageUrlParamsBuilder {
       randomImageListSize: this.randomImageListSize
     };
   }
-};
-export function buildImageUrl(params) {
-  const url = [BASE_URL];
-  if (params.breed !== STR_EMPTY) {
-    url.push(`/breed/${params.breed}`);
-    if (params.subBreed !== STR_EMPTY) {
-      url.push(`/${params.subBreed}`);
-    }
-    url.push('/images');
-  } else {
-    url.push('/breeds/image');
-  }
-
-  if (params.random || params.breed === STR_EMPTY) {
-    url.push('/random');
-    if (params.randomImageListSize > 0) {
-      url.push(`/${params.randomImageListSize}`);
-    }
-  }
-  return url.join('');
 }

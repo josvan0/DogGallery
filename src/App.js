@@ -1,19 +1,31 @@
 import React from 'react';
-/* redux */
+import { LIST_ALL_BREEDS_URL, buildSubBreedListUrl } from './helpers/dogApiUrl';
+import { STR_EMPTY } from './helpers/stringUtilities';
+
+/********** redux **********/
+
 import { connect, Provider } from 'react-redux';
-import { UPDATE_BREED_LIST, UPDATE_SUB_BREED_LIST } from './constants/actionTypes';
+import {
+  SELECT_BREED,
+  SELECT_SUB_BREED,
+  UPDATE_BREED_LIST,
+  UPDATE_SUB_BREED_LIST
+} from './constants/actionTypes';
 import store from './store';
-/* components */
+
+/********** components **********/
+
 import './App.css';
 import BreedList from './components/BreedList';
 import GalleryImage from './components/GalleryImage';
-/* dog API */
-import { LIST_ALL_BREEDS_URL } from './helpers/dogApiUrl';
 
-/* react */
+/********** react **********/
+
 class Presentational extends React.Component {
   constructor() {
     super();
+    this.handleBreedSelected = this.handleBreedSelected.bind(this);
+    this.handleSubBreedSelected = this.handleSubBreedSelected.bind(this);
   }
 
   componentDidMount() {
@@ -21,10 +33,37 @@ class Presentational extends React.Component {
       .then(response => response.json())
       .then(json => {
         if (json.status === 'success') {
-          this.props.updateBreedList(Object.keys(json.message));
+          this.props.setBreedList(Object.keys(json.message));
         }
       })
       .catch(err => console.error(err));
+  }
+
+  handleBreedSelected(e) {
+    const value = e.target.value;
+    if (value.contains('all')) {
+      this.props.selectBreed(STR_EMPTY);
+    } else {
+      this.props.selectBreed(value);
+    }
+
+    fetch(buildSubBreedListUrl(value))
+      .then(response => response.json())
+      .then(json => {
+        if (json.status === 'success') {
+          this.props.setSubBreedList(json.message);
+        }
+      })
+      .catch(err => console.error(err));
+  }
+
+  handleSubBreedSelected(e) {
+    const value = e.target.value;
+    if (value.contains('all')) {
+      this.props.selectSubBreed(STR_EMPTY);
+    } else {
+      this.props.selectSubBreed(value);
+    }
   }
 
   render() {
@@ -33,10 +72,12 @@ class Presentational extends React.Component {
         <div className="breeds">
           <BreedList
             listName="Principal breeds"
-            breedList={this.props.breedList} />
+            breedList={this.props.breedList}
+            selectHandler={this.handleBreedSelected} />
           <BreedList
             listName="Sub-Breeds"
-            breedList={this.props.subBreedList} />
+            breedList={this.props.subBreedList}
+            selectHandler={this.handleSubBreedSelected} />
         </div>
         <GalleryImage />
       </div>
@@ -44,20 +85,33 @@ class Presentational extends React.Component {
   }
 }
 
-/* connect redux */
+/********** connection redux **********/
+
 const mapStateToProps = state => ({
   breedList: state.breeds.breedList,
   subBreedList: state.breeds.subBreedList
 });
 
 const mapDispatchToProps = dispatch => ({
-  updateBreedList: newBreedList => {
+  selectBreed: breedSelected => {
+    dispatch({
+      type: SELECT_BREED,
+      payload: breedSelected
+    });
+  },
+  selectSubBreed: subBreedSelected => {
+    dispatch({
+      type: SELECT_SUB_BREED,
+      payload: subBreedSelected
+    });
+  },
+  setBreedList: newBreedList => {
     dispatch({
       type: UPDATE_BREED_LIST,
       payload: newBreedList
     });
   },
-  updateSubBreedList: newSubBreedList => {
+  setSubBreedList: newSubBreedList => {
     dispatch({
       type: UPDATE_SUB_BREED_LIST,
       payload: newSubBreedList
@@ -67,14 +121,10 @@ const mapDispatchToProps = dispatch => ({
 
 const Container = connect(mapStateToProps, mapDispatchToProps)(Presentational);
 
-class App extends React.Component {
-  render() {
-    return (
-      <Provider store={store}>
-        <Container />
-      </Provider>
-    );
-  }
-}
+const App = () => (
+  <Provider store={store}>
+    <Container />
+  </Provider>
+);
 
 export default App;

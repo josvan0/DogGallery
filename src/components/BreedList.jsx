@@ -5,6 +5,15 @@ import './BreedList.css';
 import RadioButton from './RadioButton';
 
 function BreedList(props) {
+  if (props.breedList.length === 0) {
+    return (
+      <div className="breed-list">
+        <h2>{props.listName}</h2>
+        <p>None</p>
+      </div>
+    );
+  }
+
   const breeds = props.breedList.map(breed => {
     return (
       <li key={breed}>
@@ -20,9 +29,9 @@ function BreedList(props) {
     <div className="breed-list">
       <h2>{props.listName}</h2>
       <ul>
-        <li key="all">
+        <li key={`all-${props.listName}`}>
           <RadioButton
-            value="all"
+            value={`all-${props.listName}`}
             groupName={props.listName}
             checked={true}
             selectHandler={props.selectHandler} />
