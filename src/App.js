@@ -41,7 +41,7 @@ class Presentational extends React.Component {
 
   handleBreedSelected(e) {
     const value = e.target.value;
-    if (value.contains('all')) {
+    if (value.includes('all')) {
       this.props.selectBreed(STR_EMPTY);
     } else {
       this.props.selectBreed(value);
@@ -59,7 +59,7 @@ class Presentational extends React.Component {
 
   handleSubBreedSelected(e) {
     const value = e.target.value;
-    if (value.contains('all')) {
+    if (value.includes('all')) {
       this.props.selectSubBreed(STR_EMPTY);
     } else {
       this.props.selectSubBreed(value);

@@ -1,10 +1,5 @@
 import defaultState from '../constants/state';
-
-/********** actions **********/
-import {
-  ENABLE_RANDOM_MODE,
-  QUERY_IMAGE_LIST
-} from '../constants/actionTypes';
+import { ENABLE_RANDOM_MODE } from '../constants/actionTypes';
 
 function galleryImageReducer(state = defaultState, action) {
   switch (action.type) {
@@ -12,8 +7,6 @@ function galleryImageReducer(state = defaultState, action) {
       return Object.assign({}, state, {
         randomMode: !state.randomMode
       });
-    case QUERY_IMAGE_LIST:
-      return Object.assign({}, state, {});
     default:
       return state;
   }

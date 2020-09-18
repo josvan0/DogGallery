@@ -1,3 +1,63 @@
 .gallery {
-  background-color: black;
+  height: 100vh;
+  position: relative;
+}
+
+/* controls */
+
+.controls {
+  align-items: center;
+  border-radius: 20px;
+  box-shadow: 0px 0px 3px 1px #cccccc;
+  display: flex;
+  gap: 20px;
+  justify-content: space-evenly;
+  left: 10px;
+  max-width: 90%;
+  padding: 10px 15px;
+  position: absolute;
+  top: 10px;
+  transition: all ease-in-out .3s;
+}
+
+.controls label {
+  font-family: var(--normal);
+  font-weight: bold;
+  font-size: .9em;
+}
+
+.controls input {
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: default;
+  font-family: var(--normal);
+  margin-right: 10px;
+  padding: 3px;
+}
+
+/* active status */
+
+.active {
+  background-color: white;
+}
+
+.inactive {
+  background-color: var(--primary-light-color);
+}
+
+.inactive #photo-quantity,
+.inactive #image-size {
+  display: none;
+}
+
+
+/* images */
+
+.image-list {
+  background-color: #cccccc;
+  height: 100%;
+  overflow: scroll;
+  width: 100%;
 }
