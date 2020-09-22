@@ -27,6 +27,7 @@ class Presentational extends React.Component {
 
     this.handlePhotoQuantityChange = this.handlePhotoQuantityChange.bind(this);
     this.handleImageSizeChange = this.handleImageSizeChange.bind(this);
+    this.handleRandomModeChange = this.handleRandomModeChange.bind(this);
     this.ignoreEvent = this.ignoreEvent.bind(this);
     this.queryImages = this.queryImages.bind(this);
   }
@@ -62,7 +63,7 @@ class Presentational extends React.Component {
 
   handlePhotoQuantityChange(e) {
     this.setState({
-      imageListSize: e.target.value
+      imageListSize: Number.parseInt(e.target.value)
     });
   }
 
@@ -70,6 +71,13 @@ class Presentational extends React.Component {
     this.setState({
       imageSize: e.target.value
     });
+  }
+
+  handleRandomModeChange() {
+    this.props.switchRandom();
+    const controls = document.querySelector('.controls');
+    controls.classList.toggle('inactive');
+    this.queryImages();
   }
 
   ignoreEvent(e) {
@@ -83,19 +91,27 @@ class Presentational extends React.Component {
       return (
         <div
           className="photo"
-          key={i}>
+          title="Click to view original size"
+          key={i}
+          onClick={() => window.open(imageUrl, '_blank')}>
           <img
             src={imageUrl}
             alt={`${this.props.breed}-${i}`}
-            width={this.state.imageSize} />
+            height={this.state.imageSize} />
         </div>
       );
     });
 
     return (
       <div className="gallery">
-        <div className="controls active">
-          <input type="checkbox" />
+        <div className="controls">
+          <input
+            type="checkbox"
+            id="random-mode"
+            className="random-mode"
+            checked={this.props.random}
+            onChange={this.handleRandomModeChange} />
+          <label htmlFor="random-mode">Random mode</label>
           <div>
             <input
               type="number"
@@ -131,7 +147,7 @@ class Presentational extends React.Component {
 /********** connection redux **********/
 
 const mapStateToProps = state => ({
-  random: state.breeds.randomMode,
+  random: state.gallery.randomMode,
   breed: state.breeds.selectedBreed,
   subBreed: state.breeds.selectedSubBreed
 });
