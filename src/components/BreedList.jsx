@@ -20,6 +20,7 @@ function BreedList(props) {
         <RadioButton
           value={breed}
           groupName={props.listName}
+          checked={false}
           selectHandler={props.selectHandler} />
       </li>
     );

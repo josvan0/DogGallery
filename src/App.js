@@ -41,10 +41,13 @@ class Presentational extends React.Component {
 
   handleBreedSelected(e) {
     const value = e.target.value;
-    if (value.includes('all')) {
-      this.props.selectBreed(STR_EMPTY);
-    } else {
-      this.props.selectBreed(value);
+    this.props.selectBreed(value.includes('all') ? STR_EMPTY : value);
+
+    // reset subBreed list to select all
+    const subBreedRadios = document.getElementsByName('Sub-Breeds');
+    subBreedRadios.forEach(radio => radio.checked = false);
+    if (subBreedRadios.length > 0) {
+      subBreedRadios[0].checked = true;
     }
 
     fetch(buildSubBreedListUrl(value))
@@ -59,11 +62,7 @@ class Presentational extends React.Component {
 
   handleSubBreedSelected(e) {
     const value = e.target.value;
-    if (value.includes('all')) {
-      this.props.selectSubBreed(STR_EMPTY);
-    } else {
-      this.props.selectSubBreed(value);
-    }
+    this.props.selectSubBreed(value.includes('all') ? STR_EMPTY : value);
   }
 
   render() {

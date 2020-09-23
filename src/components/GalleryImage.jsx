@@ -36,6 +36,13 @@ class Presentational extends React.Component {
     this.queryImages();
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.breed !== prevProps.breed ||
+      this.props.subBreed !== prevProps.subBreed) {
+        this.queryImages();
+      }
+  }
+
   queryImages() {
     const params = new ImageUrlParamsBuilder()
       .selectBreed(this.props.breed)

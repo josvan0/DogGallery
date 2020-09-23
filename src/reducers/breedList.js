@@ -1,3 +1,4 @@
+import { STR_EMPTY } from '../helpers/stringUtilities';
 import defaultState from '../constants/state';
 
 /********** actions **********/
@@ -12,7 +13,8 @@ function breedListReducer(state = defaultState, action) {
   switch (action.type) {
     case SELECT_BREED:
       return Object.assign({}, state, {
-        selectedBreed: action.payload
+        selectedBreed: action.payload,
+        selectedSubBreed: STR_EMPTY
       });
 
     case SELECT_SUB_BREED:
