@@ -50,11 +50,15 @@ class Presentational extends React.Component {
       .switchRandomMode(this.props.random)
       .setRandomImageListSize(this.state.imageListSize);
 
-    fetch(buildImageUrl(params.build()))
+    const url = buildImageUrl(params.build());
+    console.log(url);
+
+    fetch(url)
       .then(response => response.json())
       .then(json => {
         if (json.status === 'success') {
-          if (this.state.imageListSize === 0) {
+          if (this.state.imageListSize === 0 &&
+            this.props.random) {
             this.setState({
               imageList: [json.message]
             });
@@ -84,7 +88,7 @@ class Presentational extends React.Component {
     this.props.switchRandom();
     const controls = document.querySelector('.controls');
     controls.classList.toggle('inactive');
-    this.queryImages();
+    setTimeout(() => this.queryImages(), 10);
   }
 
   ignoreEvent(e) {

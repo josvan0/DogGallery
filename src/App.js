@@ -50,14 +50,16 @@ class Presentational extends React.Component {
       subBreedRadios[0].checked = true;
     }
 
-    fetch(buildSubBreedListUrl(value))
-      .then(response => response.json())
-      .then(json => {
-        if (json.status === 'success') {
-          this.props.setSubBreedList(json.message);
-        }
-      })
-      .catch(err => console.error(err));
+    if (!value.includes('all')) {
+      fetch(buildSubBreedListUrl(value))
+        .then(response => response.json())
+        .then(json => {
+          if (json.status === 'success') {
+            this.props.setSubBreedList(json.message);
+          }
+        })
+        .catch(err => console.error(err));
+    }
   }
 
   handleSubBreedSelected(e) {
