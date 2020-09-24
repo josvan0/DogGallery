@@ -1,7 +1,6 @@
-import { STR_EMPTY } from '../helpers/stringUtilities';
 import defaultState from '../constants/state';
-
-/********** actions **********/
+import { STR_EMPTY } from '../helpers/stringUtilities';
+// actions
 import {
   SELECT_BREED,
   SELECT_SUB_BREED,

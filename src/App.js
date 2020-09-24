@@ -1,9 +1,11 @@
 import React from 'react';
-import { LIST_ALL_BREEDS_URL, buildSubBreedListUrl } from './helpers/dogApiUrl';
+// utilities
+import {
+  LIST_ALL_BREEDS_URL,
+  buildSubBreedListUrl
+} from './helpers/dogApiUrl';
 import { STR_EMPTY } from './helpers/stringUtilities';
-
-/********** redux **********/
-
+// redux
 import { connect, Provider } from 'react-redux';
 import {
   SELECT_BREED,
@@ -12,9 +14,7 @@ import {
   UPDATE_SUB_BREED_LIST
 } from './constants/actionTypes';
 import store from './store';
-
-/********** components **********/
-
+// components
 import './App.css';
 import BreedList from './components/BreedList';
 import GalleryImage from './components/GalleryImage';
@@ -28,6 +28,7 @@ class Presentational extends React.Component {
     this.handleSubBreedSelected = this.handleSubBreedSelected.bind(this);
   }
 
+  // life cycle
   componentDidMount() {
     fetch(LIST_ALL_BREEDS_URL)
       .then(response => response.json())
@@ -39,6 +40,7 @@ class Presentational extends React.Component {
       .catch(err => console.error(err));
   }
 
+  // handlers
   handleBreedSelected(e) {
     const value = e.target.value;
     this.props.selectBreed(value.includes('all') ? STR_EMPTY : value);
@@ -50,6 +52,7 @@ class Presentational extends React.Component {
       subBreedRadios[0].checked = true;
     }
 
+    // if select all breeds, no request subBreeds
     if (!value.includes('all')) {
       fetch(buildSubBreedListUrl(value))
         .then(response => response.json())

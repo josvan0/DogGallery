@@ -1,17 +1,14 @@
 import React from 'react';
+// utilities
 import {
   ImageUrlParamsBuilder,
   buildImageUrl
 } from '../helpers/dogApiUrl';
-
-/********** redux **********/
-
+// redux
 import { connect, Provider } from 'react-redux';
 import { ENABLE_RANDOM_MODE } from '../constants/actionTypes';
 import store from '../store';
-
-/********** components **********/
-
+// components
 import './GalleryImage.css';
 
 /********** react **********/
@@ -28,10 +25,10 @@ class Presentational extends React.Component {
     this.handlePhotoQuantityChange = this.handlePhotoQuantityChange.bind(this);
     this.handleImageSizeChange = this.handleImageSizeChange.bind(this);
     this.handleRandomModeChange = this.handleRandomModeChange.bind(this);
-    this.ignoreEvent = this.ignoreEvent.bind(this);
     this.queryImages = this.queryImages.bind(this);
   }
 
+  // life cycle
   componentDidMount() {
     this.queryImages();
   }
@@ -43,6 +40,27 @@ class Presentational extends React.Component {
       }
   }
 
+  // handlers
+  handlePhotoQuantityChange(e) {
+    this.setState({
+      imageListSize: Number.parseInt(e.target.value)
+    });
+  }
+
+  handleImageSizeChange(e) {
+    this.setState({
+      imageSize: Number.parseInt(e.target.value)
+    });
+  }
+
+  handleRandomModeChange() {
+    this.props.switchRandom();
+    const controls = document.querySelector('.controls');
+    controls.classList.toggle('inactive');
+    setTimeout(() => this.queryImages(), 10);
+  }
+
+  // others
   queryImages() {
     const params = new ImageUrlParamsBuilder()
       .selectBreed(this.props.breed)
@@ -50,10 +68,7 @@ class Presentational extends React.Component {
       .switchRandomMode(this.props.random)
       .setRandomImageListSize(this.state.imageListSize);
 
-    const url = buildImageUrl(params.build());
-    console.log(url);
-
-    fetch(url)
+    fetch(buildImageUrl(params.build()))
       .then(response => response.json())
       .then(json => {
         if (json.status === 'success') {
@@ -72,33 +87,9 @@ class Presentational extends React.Component {
       .catch(err => console.error(err));
   }
 
-  handlePhotoQuantityChange(e) {
-    this.setState({
-      imageListSize: Number.parseInt(e.target.value)
-    });
-  }
-
-  handleImageSizeChange(e) {
-    this.setState({
-      imageSize: e.target.value
-    });
-  }
-
-  handleRandomModeChange() {
-    this.props.switchRandom();
-    const controls = document.querySelector('.controls');
-    controls.classList.toggle('inactive');
-    setTimeout(() => this.queryImages(), 10);
-  }
-
-  ignoreEvent(e) {
-    e.preventDefault();
-  }
-
   render() {
-    let i = 0;
+    let i = 1;
     const images = this.state.imageList.map(imageUrl => {
-      i++;
       return (
         <div
           className="photo"
@@ -107,7 +98,7 @@ class Presentational extends React.Component {
           onClick={() => window.open(imageUrl, '_blank')}>
           <img
             src={imageUrl}
-            alt={`${this.props.breed}-${i}`}
+            alt={`${this.props.breed}-${i++}`}
             height={this.state.imageSize} />
         </div>
       );
@@ -128,9 +119,9 @@ class Presentational extends React.Component {
               type="number"
               id="photo-quantity"
               min="0"
-              max="99"
+              max="30"
               value={this.state.imageListSize}
-              onKeyPress={this.ignoreEvent}
+              onKeyPress={e => e.preventDefault()}
               onChange={this.handlePhotoQuantityChange}
               onLostPointerCapture={this.queryImages} />
             <label htmlFor="photo-quantity">images</label>
@@ -142,7 +133,7 @@ class Presentational extends React.Component {
               min="10"
               max="500"
               value={this.state.imageSize}
-              onKeyPress={this.ignoreEvent}
+              onKeyPress={e => e.preventDefault()}
               onChange={this.handleImageSizeChange} />
             <label htmlFor="image-size">px</label>
           </div>
